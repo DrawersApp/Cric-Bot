@@ -66,6 +66,11 @@ function fetchallMatches(msg) {
 function toUserString(indResult) {
     return indResult["id"] + ":" + indResult["t2"] + "-" + indResult["t1"] +"\n"
 }
+
+function scoreToUserString(indResut) {
+    return "Match:" + indResut["id"] + "\n" + indResut["de"] + "\n" + indResut["si"]
+
+}
 function getUpdateScoreForMatch(match, msg) {
     rest.get('http://cricscore-api.appspot.com/csa', {
         query : { id : match}
@@ -75,7 +80,11 @@ function getUpdateScoreForMatch(match, msg) {
             this.retry(5000); // try again after 5 sec
         } else {
             console.log(result);
-            sendMessage(msg, JSON.stringify(result))
+            resultString = ''
+            for (i=0; i<result.length; i++) {
+                resultString = resultString + scoreToUserString(result[i])
+            }
+            sendMessage(msg, resultString)
         }
     });
 }
