@@ -3,6 +3,7 @@ var rest = require('restler');
 var cache = require('memory-cache');
 var constants = require('./constants');
 var botStringElement = require('./botStringElem');
+var operationsManager = require('./opmanager');
 
 
 // Todo - Live cricket score every x minute.
@@ -134,5 +135,15 @@ function fetchAllMatchesScore(msg) {
     });
 }
 
+function generateReply(msg) {
+    if (msg.body == null) {
+        return "Empty message";
+    }
+    var decodedMessage = decodeURIComponent(msg.body);
+    var drawersBotString = JSON.parse(decodedMessage);
+    operationsManager.performOperations(decodedMessage['operationType'], drawersBotString);
+}
+
+module.exports.client = client;
 
 

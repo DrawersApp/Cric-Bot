@@ -9,14 +9,12 @@ var matchOperationsString = (function () {
     var matchOperationsStringInstance;
     function create () {
 
-        var botStringElem = new botStringElem.bse(constants.botStringType.UNEDITABLE, "match", "match", []);
-        var botStringElem1 = new botStringElem.bse(constants.botStringType.STRING, "91435", null, []);
+        var botStringElem = new botStringElem.bse(constants.botStringType.UNEDITABLE, "matches", "matches", []);
         var botStringElems = [];
         botStringElems.push(botStringElem);
-        botStringElems.push(botStringElem1);
-        var drawersBotString  = new drawersBotString.drawersBotString(constants.operationType.MATCH, botStringElems);
+        var drawersBotString  = new drawersBotString.drawersBotString(constants.operationType.MATCHES, botStringElems);
         drawersBotStringHelp.getInstance().addElement(drawersBotString);
-        operationsManager.addToOperationsMap(constants.operationType.MATCH, new operations.MatchOperations(null));
+        operationsManager.addToOperationsMap(constants.operationType.MATCHES, new operations.MatchListOperations(null));
         return {
             // public + private states and behaviors
             drawersBotString: drawersBotString

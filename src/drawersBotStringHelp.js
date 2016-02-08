@@ -4,15 +4,15 @@ var drawersBotStringHelp = (function () {
 
     function create () {
 
-        var drawersBotStringList = [];
+        var DrawersBotStringHelp = [];
         function print() {
             // underlying printer mechanics
-            return JSON.stringify(drawersBotStringList);
+            return JSON.stringify(DrawersBotStringHelp);
         }
 
         function addElement(drawersBotString) {
             // add to drawersbot string
-            drawersBotStringList.push(drawersBotString);
+            DrawersBotStringHelp.push(drawersBotString);
         }
 
         return {
