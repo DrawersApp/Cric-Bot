@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "stanza.io": "^7.3.4",
-    "restler": "3.4.0"
+    "restler": "3.4.0",
+    "memory-cache": "0.1.4",
+    "enum": "2.3.0"
   },
   "devDependencies": {
     "browserify": "^11.1.0",

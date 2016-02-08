@@ -1,9 +1,15 @@
 var XMPP = require('stanza.io'); // if using browserify
-var rest = require('restler')
+var rest = require('restler');
+var cache = require('memory-cache');
+var constants = require('./constants');
+var botStringElement = require('./botStringElem');
+
+
+// Todo - Live cricket score every x minute.
 
 var client = XMPP.createClient({
-    jid: '63d1911e-6de3-49d6-8d09-4f4fa39ab7db@ejabberd.sandwitch.in',
-    password: 'irctc',
+    jid: 'harshit@ejabberd.sandwitch.in',
+    password: 'tractor',
 
     // If you have a .well-known/host-meta.json file for your
     // domain, the connection transport config can be skipped.
@@ -13,23 +19,29 @@ var client = XMPP.createClient({
     // (or `boshURL` if using 'bosh' as the transport)
 });
 
+opts = {};
+opts.interval = 180;
+opts.timeout = 30;
+client.enableKeepAlive(opts);
 client.on('session:started', function () {
-    client.getRoster();
     client.sendPresence();
     console.log("Session started");
 });
 
 client.on('chat', function (msg) {
     if ("match".localeCompare(msg.body.toLocaleLowerCase()) === 0) {
-        fetchallMatches(msg)
-    } else {
+        fetchallMatches(msg, true)
+    } else if ("matches".localeCompare(msg.body.toLocaleLowerCase()) === 0) {
+        fetchAllMatchesScore(msg)
+    }
+    else {
         getUpdateScoreForMatch(msg.body, msg)
     }
     console.log("Message received" + msg.from);
 });
 
 
-function sendMessage(msg, replyBody) {
+function sendMessage(msg, replyBody, subType) {
     client.sendMessage({
         to: msg.from,
         type: 'chat',
@@ -38,7 +50,7 @@ function sendMessage(msg, replyBody) {
         body: replyBody,
         json:
         {
-            subType: 'TEXT',
+            subType: subType,
             message: replyBody,
             timestamp: Date.now()
         }
@@ -48,17 +60,25 @@ function sendMessage(msg, replyBody) {
 client.connect();
 
 function fetchallMatches(msg) {
-    rest.get('http://cricscore-api.appspot.com/csa').on('complete', function(result) {
+    var resultString = cache.get("matchesString");
+    if (resultString !== null) {
+        console.log("Cache hit matchesString" + resultString);
+        sendMessage(msg, resultString, constants.chatType.TEXT);
+        return
+    }
+    rest.get('http://cricapp-1206.appspot.com/csa').on('complete', function(result) {
         if (result instanceof Error) {
             console.log('Error:', result.message);
             this.retry(5000); // try again after 5 sec
         } else {
             console.log(result);
-            resultString = ''
+            resultString = '';
             for (i=0; i<result.length; i++) {
                 resultString = resultString + toUserString(result[i])
             }
-            sendMessage(msg, resultString)
+            sendMessage(msg, resultString, constants.chatType.TEXT);
+            console.log("Cache miss matchesString" + resultString);
+            cache.put("matchesString", resultString, 60 * 60 * 1000)
         }
     });
 }
@@ -68,11 +88,11 @@ function toUserString(indResult) {
 }
 
 function scoreToUserString(indResut) {
-    return "Match:" + indResut["id"] + "\n" + indResut["de"] + "\n" + indResut["si"]
+    return "Match:" + indResut["id"] + "\n" + indResut["de"] + "\n" + indResut["si"] + "\n\n"
 
 }
 function getUpdateScoreForMatch(match, msg) {
-    rest.get('http://cricscore-api.appspot.com/csa', {
+    rest.get('http://cricapp-1206.appspot.com/csa', {
         query : { id : match}
     }).on('complete', function(result) {
         if (result instanceof Error) {
@@ -80,12 +100,39 @@ function getUpdateScoreForMatch(match, msg) {
             this.retry(5000); // try again after 5 sec
         } else {
             console.log(result);
-            resultString = ''
+            resultString = '';
             for (i=0; i<result.length; i++) {
                 resultString = resultString + scoreToUserString(result[i])
             }
-            sendMessage(msg, resultString)
+            sendMessage(msg, resultString, constants.chatType.TEXT)
         }
     });
 }
+
+function fetchAllMatchesScore(msg) {
+    var resultString = cache.get("matches");
+    if (resultString !== null) {
+        console.log("Cache hit matches" + resultString);
+        getUpdateScoreForMatch(resultString, msg);
+        return
+    }
+    rest.get('http://cricapp-1206.appspot.com/csa').on('complete', function(result) {
+        if (result instanceof Error) {
+            console.log('Error:', result.message);
+            this.retry(5000); // try again after 5 sec
+        } else {
+            console.log(result);
+            resultStringArray = new Array();
+            for (i=0; i<result.length; i++) {
+                resultStringArray[i] = result[i]['id']
+            }
+            resultString = resultStringArray.join("+");
+            console.log("Cache miss matches" + resultString);
+            getUpdateScoreForMatch(resultString, msg);
+            cache.put("matches", resultString, 60 * 60 * 1000)
+        }
+    });
+}
+
+
 
