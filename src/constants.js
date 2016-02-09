@@ -10,11 +10,11 @@ var chatType = (function() {
 })();
 
 var botStringType = (function() {
-    var date = 'DATE';
-    var location = 'LOCATION';
-    var time = 'TIME';
-    var string = 'STRING';
-    var uneditableText = 'UNEDITABLE';
+    var date = 'D';
+    var location = 'L';
+    var time = 'T';
+    var string = 'S';
+    var uneditableText = 'U';
 
     return {
         DATE : date,

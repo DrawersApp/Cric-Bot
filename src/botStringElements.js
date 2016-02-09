@@ -9,4 +9,4 @@ function BotStringElement( type, placeHolder, text, defaults ) {
 BotStringElement.prototype.toJsonString = function() {
     return JSON.stringify(this);
 };
-module.exports.bse = BotStringElement;
+module.exports = BotStringElement;

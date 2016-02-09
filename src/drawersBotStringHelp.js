@@ -4,15 +4,15 @@ var drawersBotStringHelp = (function () {
 
     function create () {
 
-        var DrawersBotStringHelp = [];
+        var drawersBotStrings = [];
         function print() {
-            // underlying printer mechanics
-            return JSON.stringify(DrawersBotStringHelp);
+            var drawersBotStringContainer = {};
+            drawersBotStringContainer['drawersBotStrings'] = drawersBotStrings;
+            return JSON.stringify(drawersBotStringContainer);
         }
 
         function addElement(drawersBotString) {
-            // add to drawersbot string
-            DrawersBotStringHelp.push(drawersBotString);
+            drawersBotStrings.push(drawersBotString);
         }
 
         return {
@@ -31,4 +31,4 @@ var drawersBotStringHelp = (function () {
     };
 
 })();
-module.exports.drawersBotStringHelp = drawersBotStringHelp
+module.exports = drawersBotStringHelp

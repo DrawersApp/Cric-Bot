@@ -2,14 +2,21 @@ var XMPP = require('stanza.io'); // if using browserify
 var rest = require('restler');
 var cache = require('memory-cache');
 var constants = require('./constants');
-var botStringElement = require('./botStringElem');
+var botStringElement = require('./botStringElements');
 var operationsManager = require('./opmanager');
-
-
+var operations = require('./operations')
+var matchListString = require('./matchsummarystring');
+var matchesString = require('./matchesstring');
+var matchString = require('./matchstring');
+var DrawersBotStringHelp = require('./drawersBotStringHelp');
 // Todo - Live cricket score every x minute.
 
+matchesString.getInstance();
+matchListString.getInstance();
+matchString.getInstance();
+console.log(DrawersBotStringHelp.getInstance().print());
 var client = XMPP.createClient({
-    jid: 'harshit@ejabberd.sandwitch.in',
+    jid: 'harshit1@ejabberd.sandwitch.in',
     password: 'tractor',
 
     // If you have a .well-known/host-meta.json file for your
@@ -30,14 +37,7 @@ client.on('session:started', function () {
 });
 
 client.on('chat', function (msg) {
-    if ("match".localeCompare(msg.body.toLocaleLowerCase()) === 0) {
-        fetchallMatches(msg, true)
-    } else if ("matches".localeCompare(msg.body.toLocaleLowerCase()) === 0) {
-        fetchAllMatchesScore(msg)
-    }
-    else {
-        getUpdateScoreForMatch(msg.body, msg)
-    }
+    generateReply(msg);
     console.log("Message received" + msg.from);
 });
 
@@ -141,7 +141,7 @@ function generateReply(msg) {
     }
     var decodedMessage = decodeURIComponent(msg.body);
     var drawersBotString = JSON.parse(decodedMessage);
-    operationsManager.performOperations(decodedMessage['operationType'], drawersBotString);
+    operationsManager.getInstance().performOperations(drawersBotString['operationsType'], drawersBotString, msg);
 }
 
 module.exports.client = client;

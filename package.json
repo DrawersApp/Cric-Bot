@@ -13,7 +13,7 @@
     "stanza.io": "^7.3.4",
     "restler": "3.4.0",
     "memory-cache": "0.1.4",
-    "underscore": "1.8.3"
+    "json-stable-stringify": "1.0.1"
   },
   "devDependencies": {
     "browserify": "^11.1.0",

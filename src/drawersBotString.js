@@ -1,10 +1,10 @@
-function DrawersBotString( operationType, botStringElements) {
+function DrawersBotString( operationsType, botStringElements) {
 
-    this.operationType = operationType;
-    this.botStringElem = botStringElements;
+    this.operationsType = operationsType;
+    this.botStringElements = botStringElements;
 
     this.toString = function () {
-        return this.operationType + " has done " + this.botStringElem + " miles";
+        return this.operationsType + " has done " + this.botStringElements + " miles";
     };
 
 }
@@ -12,4 +12,4 @@ function DrawersBotString( operationType, botStringElements) {
 DrawersBotString.prototype.toJsonString = function() {
     return JSON.stringify(this);
 };
-module.exports.drawersBotString = DrawersBotString;
+module.exports = DrawersBotString;

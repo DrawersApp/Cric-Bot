@@ -1,18 +1,31 @@
 /**
  * Created by harshit on 8/2/16.
  */
-var drawersBotString = require('./drawersBotString')
-var OperationsManager;
-(function (OperationsManager) {
-    var operationsMap;
-    function addToOperationsMap(key, operations) {
-        operationsMap[key] = operations;
+var OperationsManager = (function (OperationsManager) {
+    var operationsManagerInstance;
+    function create() {
+        var operationsMap = {};
+        function addToOperationsMap(key, operations) {
+            operationsMap[key] = operations;
+        }
+        function performOperations(key, input, msg) {
+            operationsMap[key].generateCopyObject().makeRestCall(input, msg);
+        }
+        return {
+            addToOperationsMap: addToOperationsMap,
+            performOperations: performOperations
+        }
     }
-    OperationsManager.addToOperationsMap = addToOperationsMap;
-    function performOperations(key, input) {
-        operationsMap[key].generateCopyObject().makeRestCall(input);
+
+    return {
+        getInstance: function() {
+            if(!operationsManagerInstance) {
+                operationsManagerInstance = create();
+            }
+            return operationsManagerInstance;
+        }
     }
-    OperationsManager.performOperations = performOperations;
-})(OperationsManager || (OperationsManager = {}));
+
+})();
 //# sourceMappingURL=operationsmanager.js.map
 module.exports = OperationsManager;
