@@ -1,4 +1,4 @@
-function DrawersBotString( operationsType, botStringElements) {
+function DrawersBotString(operationsType, botStringElements) {
 
     this.operationsType = operationsType;
     this.botStringElements = botStringElements;
@@ -9,7 +9,7 @@ function DrawersBotString( operationsType, botStringElements) {
 
 }
 
-DrawersBotString.prototype.toJsonString = function() {
+DrawersBotString.prototype.toJsonString = function () {
     return JSON.stringify(this);
 };
 module.exports = DrawersBotString;

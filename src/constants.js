@@ -1,15 +1,14 @@
-
-var chatType = (function() {
+var chatType = (function () {
     var text = 'TEXT';
     var image = 'IMAGE';
 
     return {
-        TEXT : text,
+        TEXT: text,
         IMAGE: image
     }
 })();
 
-var botStringType = (function() {
+var botStringType = (function () {
     var date = 'D';
     var location = 'L';
     var time = 'T';
@@ -17,7 +16,7 @@ var botStringType = (function() {
     var uneditableText = 'U';
 
     return {
-        DATE : date,
+        DATE: date,
         LOCATION: location,
         TIME: time,
         STRING: string,
@@ -28,12 +27,12 @@ var botStringType = (function() {
 var operationsType = (function () {
     var match = 'MATCH';
     var matches = 'MATCHES';
-    var score = 'SCORE';
+    var summary = 'SUMMARY';
 
     return {
         MATCH: match,
         MATCHES: matches,
-        SCORE: score
+        SUMMARY: summary
     }
 })();
 module.exports.chatType = chatType;

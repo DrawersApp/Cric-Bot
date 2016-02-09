@@ -2,9 +2,10 @@ var drawersBotStringHelp = (function () {
 
     var drawersBotStringHelpInstance;
 
-    function create () {
+    function create() {
 
         var drawersBotStrings = [];
+
         function print() {
             var drawersBotStringContainer = {};
             drawersBotStringContainer['drawersBotStrings'] = drawersBotStrings;
@@ -22,8 +23,8 @@ var drawersBotStringHelp = (function () {
     }
 
     return {
-        getInstance: function() {
-            if(!drawersBotStringHelpInstance) {
+        getInstance: function () {
+            if (!drawersBotStringHelpInstance) {
                 drawersBotStringHelpInstance = create();
             }
             return drawersBotStringHelpInstance;

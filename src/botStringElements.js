@@ -1,4 +1,4 @@
-function BotStringElement( type, placeHolder, text, defaults ) {
+function BotStringElement(type, placeHolder, text, defaults) {
 
     this.type = type;
     this.placeHolder = placeHolder;
@@ -6,7 +6,7 @@ function BotStringElement( type, placeHolder, text, defaults ) {
     this.defaults = defaults;
 }
 
-BotStringElement.prototype.toJsonString = function() {
+BotStringElement.prototype.toJsonString = function () {
     return JSON.stringify(this);
 };
 module.exports = BotStringElement;
