@@ -1,7 +1,7 @@
 Drawers node bot based on node sdk.
 
 
-![Cricket Bot]('./cricket.gif')
+![Cricket Bot](https://github.com/DrawersApp/Cric-Bot/blob/master/cricket.gif)
 ```
 Instructions to run bot:
 1. Install node 4.0.
