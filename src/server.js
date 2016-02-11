@@ -16,8 +16,8 @@ matchListString.getInstance();
 matchString.getInstance();
 console.log(DrawersBotStringHelp.getInstance().print());
 var client = XMPP.createClient({
-    jid: 'harshit1@ejabberd.sandwitch.in',
-    password: 'tractor',
+    jid: 'c357dedb-10b6-40b1-8eab-d64c3da935b7@ejabberd.sandwitch.in',
+    password: '84764c62-a568-4d4e-a205-d450ba6f0e93',
 
     // If you have a .well-known/host-meta.json file for your
     // domain, the connection transport config can be skipped.
@@ -65,7 +65,15 @@ function generateReply(msg) {
         return "Empty message";
     }
     var decodedMessage = decodeURIComponent(msg.body);
-    var drawersBotString = JSON.parse(decodedMessage);
+    var drawersBotString
+    try {
+        drawersBotString = JSON.parse(decodedMessage);
+    } catch (e) {
+        console.log(drawersBotString);
+    }
+    if (!drawersBotString) {
+        return;
+    }
     operationsManager.getInstance().performOperations(drawersBotString['operationsType'], drawersBotString, msg);
 }
 
